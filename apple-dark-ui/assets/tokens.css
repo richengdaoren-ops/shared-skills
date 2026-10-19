@@ -1,0 +1,560 @@
+/*
+ * Apple 风格深色界面 · design tokens（Tailwind CSS v4）
+ *
+ * 用法：放进全局样式入口，在 @import "tailwindcss"; 之后。
+ * 组件里只用语义类：bg-canvas / bg-elevated-1 / text-label-2 / bg-fill-3 / border-separator / bg-tint
+ *                   text-body / text-footnote / rounded-card …，以及材质类 .lg-* / .mat-*。
+ * 字体：按需安装 @fontsource-variable/literata、@fontsource-variable/noto-serif-sc、
+ *       @fontsource-variable/jetbrains-mono 并在入口 import；不用衬线标题时删掉 font-serif 相关规则。
+ */
+
+/* ==========================================================================
+   1. 颜色 → Tailwind（inline：直接引用 :root 变量）
+   ========================================================================== */
+@theme inline {
+  --color-canvas: var(--bg-base);
+  --color-elevated-1: var(--bg-elevated-1);
+  --color-elevated-2: var(--bg-elevated-2);
+  --color-elevated-3: var(--bg-elevated-3);
+  --color-label: var(--label-primary);
+  --color-label-2: var(--label-secondary);
+  --color-label-3: var(--label-tertiary);
+  --color-label-4: var(--label-quaternary);
+  --color-fill-1: var(--fill-primary);
+  --color-fill-2: var(--fill-secondary);
+  --color-fill-3: var(--fill-tertiary);
+  --color-fill-4: var(--fill-quaternary);
+  --color-separator: var(--separator);
+  --color-separator-opaque: var(--separator-opaque);
+  --color-tint: var(--tint);
+  --color-tint-foreground: var(--tint-foreground);
+  --color-success: var(--system-green);
+  --color-danger: var(--system-red);
+  --color-warning: var(--system-orange);
+  --color-caution: var(--system-yellow);
+  --color-info: var(--system-teal);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
+}
+
+/* ==========================================================================
+   2. 字体、字号、圆角（非 inline：工具类引用 var()，移动端可在 :root 覆盖）
+   ========================================================================== */
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC",
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK SC", "Microsoft YaHei UI", "Segoe UI",
+    sans-serif;
+  /* 标题：拉丁用 Literata，中日文用思源宋体 */
+  --font-serif: "Literata Variable", "Noto Serif SC Variable", "Songti SC", Georgia, serif;
+  /* 代码与数字：其中的中文回退到系统无衬线 */
+  --font-mono: "JetBrains Mono Variable", "SF Mono", ui-monospace, Menlo, "PingFang SC", Consolas, monospace;
+
+  /* 桌面档；移动端见文件末尾的媒体查询 */
+  --text-large-title: 30px;
+  --text-large-title--line-height: 36px;
+  --text-large-title--font-weight: 700;
+  --text-title-1: 24px;
+  --text-title-1--line-height: 30px;
+  --text-title-1--font-weight: 700;
+  --text-title-2: 20px;
+  --text-title-2--line-height: 26px;
+  --text-title-2--font-weight: 600;
+  --text-title-3: 17px;
+  --text-title-3--line-height: 22px;
+  --text-title-3--font-weight: 600;
+  --text-headline: 14px;
+  --text-headline--line-height: 20px;
+  --text-headline--font-weight: 600;
+  --text-body: 14px;
+  --text-body--line-height: 20px;
+  --text-callout: 13px;
+  --text-callout--line-height: 18px;
+  --text-subhead: 13px;
+  --text-subhead--line-height: 18px;
+  --text-subhead--font-weight: 500;
+  --text-footnote: 12px;
+  --text-footnote--line-height: 16px;
+  --text-caption-1: 11px;
+  --text-caption-1--line-height: 14px;
+  --text-caption-1--font-weight: 500;
+  --text-caption-2: 11px;
+  --text-caption-2--line-height: 13px;
+  --text-caption-2--font-weight: 500;
+  --text-kpi: 28px;
+  --text-kpi--line-height: 34px;
+  --text-kpi--font-weight: 600;
+
+  /* 同心圆角：内层 = 外层 − 内边距 */
+  --radius-shell: 24px;
+  --radius-card: 20px;
+  --radius-inner: 12px;
+  --radius-control: 10px;
+  --radius-small: 6px;
+}
+
+/* ==========================================================================
+   3. 基础变量
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* 背景：带冷调的近黑，逐级变亮 */
+  --bg-base: #11131a;
+  --bg-elevated-1: #181b22;
+  --bg-elevated-2: #1f222a;
+  --bg-elevated-3: #282b34;
+
+  /* 文字：Apple 深色 label 阶梯 */
+  --label-primary: rgb(255 255 255 / 0.95);
+  --label-secondary: rgb(235 235 245 / 0.68);
+  --label-tertiary: rgb(235 235 245 / 0.44);
+  --label-quaternary: rgb(235 235 245 / 0.2);
+
+  /* 填充与分隔：一律白色透明度 */
+  --fill-primary: rgb(255 255 255 / 0.14);
+  --fill-secondary: rgb(255 255 255 / 0.1);
+  --fill-tertiary: rgb(255 255 255 / 0.07);
+  --fill-quaternary: rgb(255 255 255 / 0.045);
+  --separator: rgb(255 255 255 / 0.07);
+  --separator-opaque: #2a2d35;
+
+  /* 组件顶光：从顶边往下 160px 内淡出（固定像素，与组件高度无关） */
+  --top-light: linear-gradient(180deg, rgb(255 255 255 / 0.028), rgb(255 255 255 / 0.01) 64px, rgb(255 255 255 / 0) 160px);
+  /* 内容层：发丝线 + 顶部内高光 */
+  --surface-line: rgb(255 255 255 / 0.085);
+  --surface-edge: inset 0 1px 0 rgb(255 255 255 / 0.055);
+
+  /* 强调色：冷调浅灰白，浅色底深色字。品牌需要彩色时只换这两个值 */
+  --tint: #e7ebf3;
+  --tint-foreground: #1c1c1e;
+
+  /* iOS 深色系统色 */
+  --system-blue: #0a84ff;
+  --system-green: #30d158;
+  --system-red: #ff453a;
+  --system-orange: #ff9f0a;
+  --system-yellow: #ffd60a;
+  --system-teal: #40c8e0;
+  --system-indigo: #5e5ce6;
+  --system-purple: #bf5af2;
+  --system-pink: #ff375f;
+  --system-gray: #8e8e93;
+
+  --chart-1: var(--system-blue);
+  --chart-2: var(--system-teal);
+  --chart-3: var(--system-green);
+  --chart-4: var(--system-orange);
+  --chart-5: var(--system-purple);
+  --chart-6: var(--system-pink);
+  --chart-7: var(--system-yellow);
+  --chart-8: var(--system-indigo);
+
+  /* 控件高度：按钮与输入框共用，移动端放大 */
+  --control-h-sm: 32px;
+  --control-h: 36px;
+  --control-h-lg: 44px;
+  --switch-w: 40px;
+  --switch-h: 24px;
+  --check-size: 18px;
+
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 移动端：iOS 默认（Large）字号档 + 更大的控件 */
+@media (max-width: 1023px) {
+  :root {
+    --control-h-sm: 36px;
+    --control-h: 44px;
+    --control-h-lg: 50px;
+    --switch-w: 51px;
+    --switch-h: 31px;
+    --check-size: 22px;
+    --text-large-title: 34px;
+    --text-large-title--line-height: 41px;
+    --text-title-1: 28px;
+    --text-title-1--line-height: 34px;
+    --text-title-2: 22px;
+    --text-title-2--line-height: 28px;
+    --text-title-3: 20px;
+    --text-title-3--line-height: 25px;
+    --text-headline: 17px;
+    --text-headline--line-height: 22px;
+    --text-body: 17px;
+    --text-body--line-height: 22px;
+    --text-callout: 16px;
+    --text-callout--line-height: 21px;
+    --text-subhead: 15px;
+    --text-subhead--line-height: 20px;
+    --text-footnote: 13px;
+    --text-footnote--line-height: 18px;
+    --text-caption-1: 12px;
+    --text-caption-1--line-height: 16px;
+  }
+}
+
+/* ==========================================================================
+   4. 基础重置（必须在 @layer base 里，否则会压过工具类）
+   ========================================================================== */
+@layer base {
+  html,
+  body {
+    background-color: var(--bg-base);
+    color: var(--label-primary);
+    font-family: var(--font-sans);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* iOS 聚焦输入框时不放大页面 */
+@media (max-width: 767px), (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select,
+  [contenteditable="true"] {
+    font-size: 16px;
+  }
+}
+
+/*
+ * 以下组件级样式放在 @layer components 里：工具类（@layer utilities）排在它后面，
+ * 所以 className 里的 font-mono、bg-*、p-0 等工具类可以覆盖材质和标题字体。
+ * 不放进 layer 的话，这些规则会压过所有工具类（例如 .text-title-3 的衬线字体盖掉 font-mono）。
+ */
+@layer components {
+  /* 标题衬线、KPI 等宽 */
+  .text-large-title,
+  .text-title-1,
+  .text-title-2,
+  .text-title-3 {
+    font-family: var(--font-serif);
+  }
+
+  .text-kpi {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: rgb(231 235 243 / 0.28);
+    color: inherit;
+  }
+
+  /* ==========================================================================
+     5. 材质
+     注意：-webkit-backdrop-filter 写在标准属性之前，且值写死、不要用 var()。
+     ========================================================================== */
+
+  /* Liquid Glass · regular —— 功能层：侧边栏、工具栏控件组、菜单、Popover、Select 面板、Toast */
+  .lg-regular {
+    border: 1px solid transparent;
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(24 26 33 / 0.5), rgb(24 26 33 / 0.5)) padding-box,
+      linear-gradient(160deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.045) 36%, rgb(255 255 255 / 0.025) 64%, rgb(255 255 255 / 0.07)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.06),
+      0 8px 28px rgb(0 0 0 / 0.26);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+  }
+
+  /* Liquid Glass · thick —— 覆盖层：Dialog、Sheet、Alert、命令菜单（磨砂：底色压一半，靠模糊保证可读） */
+  .lg-thick {
+    border: 1px solid transparent;
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(22 24 31 / 0.62), rgb(22 24 31 / 0.62)) padding-box,
+      linear-gradient(160deg, rgb(255 255 255 / 0.15), rgb(255 255 255 / 0.045) 36%, rgb(255 255 255 / 0.025) 64%, rgb(255 255 255 / 0.07)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.05),
+      0 20px 56px rgb(0 0 0 / 0.42);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+    backdrop-filter: blur(28px) saturate(150%);
+  }
+
+  /* Liquid Glass · clear —— 只用于胶囊 Tab Bar、浮动圆形按钮（下方有内容经过） */
+  .lg-clear {
+    border: 1px solid transparent;
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(20 21 25 / 0.3), rgb(20 21 25 / 0.3)) padding-box,
+      linear-gradient(160deg, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.08) 36%, rgb(255 255 255 / 0.05) 64%, rgb(255 255 255 / 0.2)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.16),
+      inset 0 -1px 0 rgb(0 0 0 / 0.16),
+      0 12px 32px rgb(0 0 0 / 0.4);
+    -webkit-backdrop-filter: blur(10px) saturate(200%) brightness(1.08);
+    backdrop-filter: blur(10px) saturate(200%) brightness(1.08);
+  }
+
+  /* 启用折射（Chromium，见 components/refraction.ts）时降低底色，让被弯折的背景透出来 */
+  .lg-regular[data-refraction],
+  .lg-clear[data-refraction] {
+    box-shadow:
+      inset 1px 1px 0 rgb(255 255 255 / 0.13),
+      inset -1px -1px 0 rgb(255 255 255 / 0.045),
+      inset 0 0 22px rgb(255 255 255 / 0.03),
+      0 10px 30px rgb(0 0 0 / 0.26);
+  }
+
+  .lg-regular[data-refraction] {
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(24 26 33 / 0.4), rgb(24 26 33 / 0.4)) padding-box,
+      linear-gradient(160deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.05) 36%, rgb(255 255 255 / 0.025) 64%, rgb(255 255 255 / 0.09)) border-box;
+  }
+
+  .lg-clear[data-refraction] {
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(20 21 25 / 0.12), rgb(20 21 25 / 0.12)) padding-box,
+      linear-gradient(160deg, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0.07) 36%, rgb(255 255 255 / 0.04) 64%, rgb(255 255 255 / 0.16)) border-box;
+  }
+
+  /* 标准材质 —— 内容层：半透明提亮 + 发丝线，不模糊、不投影；文字越多提亮越多 */
+  .mat-thin,
+  .mat-regular,
+  .mat-thick {
+    border: 1px solid var(--surface-line);
+    box-shadow: var(--surface-edge);
+  }
+
+  .mat-thin { background: rgb(255 255 255 / 0.025); }
+  .mat-regular { background: rgb(255 255 255 / 0.035); }
+  .mat-thick { background: rgb(255 255 255 / 0.05); }
+
+  .surface-solid {
+    background-color: var(--bg-elevated-1);
+    border: 1px solid var(--separator);
+  }
+
+  /* 玻璃内的选中项：微微凸起的玻璃片（侧边栏选中项、会话列表选中项） */
+  .nav-item-selected {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.11), rgb(255 255 255 / 0.05));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      inset 0 0 0 1px rgb(255 255 255 / 0.05),
+      0 1px 2px rgb(0 0 0 / 0.45),
+      0 6px 16px rgb(0 0 0 / 0.28);
+  }
+
+  /* 浮起的输入框（聊天 composer）：底色亮一档 + 顶光 + 上亮下暗描边 + 柔和投影；聚焦时描边提亮并加外环 */
+  .composer-surface {
+    border: 1px solid transparent;
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(30 31 37 / 0.92), rgb(24 25 30 / 0.92)) padding-box,
+      linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.06) 40%, rgb(255 255 255 / 0.04)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.06),
+      0 1px 2px rgb(0 0 0 / 0.5),
+      0 18px 40px rgb(0 0 0 / 0.36);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+    transition: box-shadow 160ms ease, background 160ms ease;
+  }
+
+  .composer-surface:focus-within {
+    background:
+      var(--top-light) padding-box,
+      linear-gradient(rgb(32 33 40 / 0.94), rgb(25 26 31 / 0.94)) padding-box,
+      linear-gradient(180deg, rgb(255 255 255 / 0.26), rgb(255 255 255 / 0.1) 40%, rgb(255 255 255 / 0.06)) border-box;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.08),
+      0 0 0 3px rgb(231 235 243 / 0.08),
+      0 1px 2px rgb(0 0 0 / 0.5),
+      0 18px 40px rgb(0 0 0 / 0.4);
+  }
+
+  /* Scroll edge effect：内容滚过浮动顶栏时逐渐模糊、压暗。放在滚动容器之上、浮动控件之下 */
+  .scroll-edge-top {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: var(--scroll-edge-height, 72px);
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: linear-gradient(rgb(17 19 26 / 0.7), rgb(17 19 26 / 0));
+    -webkit-mask-image: linear-gradient(#000 45%, transparent);
+    mask-image: linear-gradient(#000 45%, transparent);
+  }
+
+  /* 表格中固定在右侧的列（操作列）：底色 = bg-base 叠 .mat-thick 的 5% 白（改了背景色要重新计算） */
+  .table-sticky-end {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    background-color: rgb(29 31 38);
+    box-shadow: -14px 0 14px -14px rgb(0 0 0 / 0.5);
+  }
+
+  thead .table-sticky-end {
+    z-index: 2;
+  }
+
+  /* 再叠一层行 hover 的 fill-4 */
+  tr:hover > .table-sticky-end {
+    background-color: rgb(38 40 47);
+  }
+
+  /* 移动端底部 Tab Bar 外层与主滚动区：浏览器里叠加安全区，主屏 PWA（html[data-standalone]）里不叠加 */
+  .tabbar-shell {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 21px);
+  }
+
+  html[data-standalone='true'] .tabbar-shell {
+    padding-bottom: 21px;
+  }
+
+  .main-scroll {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 6rem);
+  }
+
+  html[data-standalone='true'] .main-scroll {
+    padding-bottom: 6rem;
+  }
+
+  /* 桌面内容区：内容 + 页脚两行网格 */
+  .app-content-grid {
+    display: grid;
+    min-height: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .app-content-grid:has(> .app-content > :is(.h-full, .lg\:h-full)) {
+    height: 100%;
+  }
+
+  /* Skeleton：fill-4 底，一道微光每 1.6s 扫过 */
+  .skeleton-shimmer {
+    background-color: var(--fill-quaternary);
+    background-image: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.06) 50%, transparent 70%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: skeleton-shimmer 1.6s linear infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+/* ==========================================================================
+   6. 动效
+   ========================================================================== */
+
+/* Dialog：居中放大淡入 */
+@keyframes dialog-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dialog-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: scale(0.97); }
+}
+
+/* 底部 Sheet / 抽屉 */
+@keyframes sheet-up-in {
+  from { transform: translateY(calc(100% + 16px)); }
+  to { transform: none; }
+}
+
+@keyframes sheet-up-out {
+  from { transform: none; }
+  to { transform: translateY(calc(100% + 16px)); }
+}
+
+@layer components {
+  .dialog-content[data-state="open"] { animation: dialog-in 280ms var(--ease-sheet) both; }
+  .dialog-content[data-state="closed"] { animation: dialog-out 160ms ease-in both; }
+  .bottom-sheet[data-state="open"] { animation: sheet-up-in 400ms var(--ease-sheet) both; }
+  .bottom-sheet[data-state="closed"] { animation: sheet-up-out 240ms cubic-bezier(0.4, 0, 1, 1) both; }
+}
+
+/* 胶囊 Tab Bar：选中块横向拉伸回弹，新选中图标弹跳 */
+@keyframes tabbar-indicator-stretch {
+  0% { transform: scale(1, 1); }
+  35% { transform: scale(1.32, 0.86); }
+  70% { transform: scale(0.95, 1.04); }
+  100% { transform: scale(1, 1); }
+}
+
+@keyframes tabbar-icon-bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.8); }
+  65% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   7. 无障碍（不放进 layer：要压过材质类和调用方的工具类）
+   ========================================================================== */
+@media (prefers-reduced-transparency: reduce) {
+  .lg-regular,
+  .lg-thick,
+  .lg-clear,
+  .mat-thin,
+  .mat-regular,
+  .mat-thick,
+  .composer-surface {
+    background: var(--bg-elevated-2);
+    border-color: var(--separator);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --separator: rgb(255 255 255 / 0.24);
+    --label-secondary: rgb(235 235 245 / 0.78);
+    --label-tertiary: rgb(235 235 245 / 0.56);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+    background-image: none;
+  }
+
+  .dialog-content[data-state],
+  .bottom-sheet[data-state] {
+    animation-duration: 1ms !important;
+  }
+
+  .tabbar-indicator,
+  .tabbar-indicator > span,
+  .tabbar-icon-bounce {
+    animation: none !important;
+    transition: none !important;
+  }
+}
